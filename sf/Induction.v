@@ -261,23 +261,40 @@ Proof.
 Qed.
 
 
+Theorem plus_1_r:
+  forall (n : nat), 
+  n + 1 = S n.
+Proof. Admitted.
+
+
+
+
+Theorem plus_r_0:
+  forall (n :nat),
+  n + 0 = n.
+Proof. Admitted.
 
 Theorem plus_comm : forall n m : nat,
   n + m = m + n.
 Proof.
   intros.
-  induction n as [|n'].
-  Case "n = 0". simpl. 
-    induction m as [|m']. 
-    SCase "m = 0". simpl. reflexivity.
-    SCase "m = S m'". 
-      rewrite -> IHm'. simpl. 
-      rewrite -> plus_0_r. rewrite -> plus_0_r.
-      reflexivity.
-  Case "n = S n'". 
-    induction m as [|m'].
-    SCase "m = 0". simpl.   rewrite -> plus_0_r. reflexivity.
-    SCase "m = S m'". 
+  induction m as [|m]. 
+  simpl. rewrite -> plus_0_r. reflexivity.
+  
+  destruct n.
+  simpl.
+  rewrite -> plus_0_r. reflexivity.
+  
+  induction n as [|n]. 
+  simpl.
+  rewrite <- IHm. rewrite -> IHm. simpl. rewrite -> plus_1_r. reflexivity.
+  simpl. rewrite <- plus_1_r.
+  
+  rewrite <- plus_n_Sm. simpl. rewrite <- IHm. simpl.
+  rewrite <- plus_n_Sm. simpl. rewrite -> plus_r_0. reflexivity.
+Qed.
+
+
 
 
 Theorem plus_assoc : forall n m p : nat,
