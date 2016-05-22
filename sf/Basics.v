@@ -1025,6 +1025,16 @@ Theorem commute:
   bin_to_nat n + 1 = 1 + bin_to_nat n.
 Proof. Admitted.
 
+Theorem nat_commute:
+  forall (n m :nat),
+  n + m = m + n.
+Proof. Admitted.
+
+Theorem nat_assoc:
+  forall (n m k :nat),
+  n + (m + k) = n + m + k -> (n + m) + k =  n + m + k.
+Proof. Admitted.
+
 Theorem twice:
   forall (n' : bin), 
   (bin_to_nat n') + (bin_to_nat n')  = 2 * (bin_to_nat n').
@@ -1035,16 +1045,24 @@ Theorem before_after:
   bin_to_nat (incr n) =  (bin_to_nat n) + 1.
 Proof.
   intros n.
-  destruct n.
-  simpl.
+  induction n as [X|T n'|T1 n'].
+  reflexivity.
   reflexivity.
   simpl.
-  reflexivity.
-  rewrite -> incr2.
+  rewrite -> n'.
   simpl.
   rewrite <- plus_n_O.
+  simpl.
   rewrite <- plus_n_O.
   simpl.
+  rewrite -> commute.
+
+
+
+  
+
+  
+    
 Admitted. (** admission of my failure to prove :-D *) 
 
 

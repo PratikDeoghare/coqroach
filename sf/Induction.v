@@ -240,18 +240,44 @@ Proof.
 Theorem mult_0_r : forall n:nat,
   n * 0 = 0.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros n.
+  induction n as [|n'].
+  Case "n = 0".
+    reflexivity.
+  Case "n > 0".
+    simpl.
+    rewrite -> IHn'.
+    reflexivity.
+Qed.
+
 
 Theorem plus_n_Sm : forall n m : nat, 
   S (n + m) = n + (S m).
 Proof. 
-  (* FILL IN HERE *) Admitted.
+  intros.
+  induction n as [|n'].
+  Case "n = 0". reflexivity.
+  Case "n = S n'". simpl. rewrite <- IHn'. reflexivity.
+Qed.
+
 
 
 Theorem plus_comm : forall n m : nat,
   n + m = m + n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros.
+  induction n as [|n'].
+  Case "n = 0". simpl. 
+    induction m as [|m']. 
+    SCase "m = 0". simpl. reflexivity.
+    SCase "m = S m'". 
+      rewrite -> IHm'. simpl. 
+      rewrite -> plus_0_r. rewrite -> plus_0_r.
+      reflexivity.
+  Case "n = S n'". 
+    induction m as [|m'].
+    SCase "m = 0". simpl.   rewrite -> plus_0_r. reflexivity.
+    SCase "m = S m'". 
 
 
 Theorem plus_assoc : forall n m p : nat,
