@@ -272,7 +272,14 @@ Proof. Admitted.
 Theorem plus_r_0:
   forall (n :nat),
   n + 0 = n.
-Proof. Admitted.
+Proof.
+  destruct n.
+  reflexivity.
+  simpl. 
+  induction n as [|n'].
+  simpl. reflexivity.
+  rewrite <- IHn'. simpl. rewrite -> plus_0_r. reflexivity.
+Qed.
 
 Theorem plus_comm : forall n m : nat,
   n + m = m + n.
@@ -300,7 +307,18 @@ Qed.
 Theorem plus_assoc : forall n m p : nat,
   n + (m + p) = (n + m) + p.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. (** dramatis personae :-) **)
+  induction n as [|n'].
+  induction m as [|m'].
+  induction p as [|p'].
+  simpl. reflexivity.
+  simpl. reflexivity.
+  simpl. reflexivity.
+  simpl. rewrite <- IHn'. reflexivity.
+Qed.
+(** This was proven mindelessly thats what I want from my machine! **)
+
+
 (** [] *)
 
 (** **** Exercise: 2 stars (double_plus)  *)
