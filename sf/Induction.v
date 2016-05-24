@@ -439,19 +439,66 @@ Proof.
 Theorem plus_swap : forall n m p : nat, 
   n + (m + p) = m + (n + p).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros. 
+  rewrite -> plus_comm.
+  assert (H: n + p = p + n).
+    Case "n and p commute".
+    intros.
+    rewrite <- plus_comm.
+    reflexivity.
+  rewrite -> H.
+  rewrite -> plus_assoc.
+  reflexivity.
+Qed.
+
+Theorem mult_dist: forall n m p : nat,
+  n * (m + p) = n * m + n * p.
+Proof. Admitted.
 
 
 (** Now prove commutativity of multiplication.  (You will probably
     need to define and prove a separate subsidiary theorem to be used
     in the proof of this one.)  You may find that [plus_swap] comes in
     handy. *)
+    
+Theorem just_one: forall n : nat, 
+  S n = n + 1. 
+Proof. Admitted.
+
+Theorem sn_to_n_1 : forall n m : nat,
+ m * S n = m * n + m.
+Proof. 
+  intros.
+  induction m as [|m'].
+  simpl. reflexivity.
+  simpl.
+  assert (H:S m' = m' + 1).
+    Case "plus 1".
+    induction m' as [|k].
+    reflexivity.
+    simpl. rewrite <- just_one. reflexivity.
+  rewrite -> H. simpl. rewrite <- plus_comm. rewrite -> just_one.
+  rewrite -> IHm'. rewrite -> plus_assoc.
+  rewrite -> (plus_comm (n + m'*n)). rewrite -> plus_assoc.
+  rewrite -> (plus_comm (m' * n)) at 1.
+  rewrite -> (plus_comm (m' + m' * n)) at 1. rewrite -> plus_assoc.
+  rewrite -> (plus_comm (n)) at 1. reflexivity.
+Qed.
+
 
 Theorem mult_comm : forall m n : nat,
  m * n = n * m.
 Proof.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
+  intros.
+  induction m as [|m'].
+  induction n as [|n'].
+  reflexivity. 
+  simpl. rewrite <- IHn'. reflexivity.
+  simpl. rewrite -> sn_to_n_1. rewrite <- IHm'. rewrite <- plus_comm.
+  reflexivity.
+Qed.
+  
+
 
 (** **** Exercise: 2 stars, optional (evenb_n__oddb_Sn)  *)
 
