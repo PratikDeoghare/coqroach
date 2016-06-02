@@ -664,8 +664,13 @@ problem using the theorem no matter which way we state it. *)
 Theorem beq_nat_refl : forall n : nat, 
   true = beq_nat n n.
 Proof.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
+  intros.
+  induction n as [|n'].
+  reflexivity.
+  simpl.
+  rewrite <- IHn'. reflexivity.
+Qed.
+  
 
 (** **** Exercise: 2 stars, optional (plus_swap')  *)
 (** The [replace] tactic allows you to specify a particular subterm to
@@ -682,9 +687,19 @@ Proof.
 Theorem plus_swap' : forall n m p : nat, 
   n + (m + p) = m + (n + p).
 Proof.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
-
+  intros.
+  induction m as [|m'].
+  simpl. reflexivity.
+  simpl. rewrite <- IHm'.
+  assert (H: forall a b :nat, a + S b = S ( a + b)).
+    intros.
+    induction a as [|a'].
+    simpl. reflexivity.
+    simpl. rewrite -> IHa'.
+    reflexivity. 
+  rewrite -> H.
+  reflexivity. 
+Qed.
 
 (** **** Exercise: 3 stars (binary_commute)  *)
 (** Recall the [increment] and [binary-to-unary] functions that you
