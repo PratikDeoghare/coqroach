@@ -715,8 +715,26 @@ Qed.
     wanting to change your original definitions to make the property
     easier to prove, feel free to do so.) *)
 
-(* FILL IN HERE *)
-(** [] *)
+Theorem bin_to_nat_pres_incr: forall b : bin, 
+  bin_to_nat( incr b) = S (bin_to_nat b). 
+Proof.
+  intros.
+  induction b.
+  simpl. reflexivity.
+  simpl. rewrite -> plus_1_r. reflexivity.
+  simpl. rewrite -> IHb. rewrite <- plus_1_r. 
+  rewrite -> plus_assoc. rewrite -> plus_assoc.
+  rewrite -> plus_assoc. rewrite -> plus_1_r. simpl. 
+  rewrite -> plus_0_r. rewrite -> plus_0_r. rewrite -> plus_comm. 
+  rewrite -> plus_assoc. reflexivity.
+Qed.
+  
+  
+ 
+  
+
+
+  
 
 
 (** **** Exercise: 5 stars, advanced (binary_inverse)  *)
